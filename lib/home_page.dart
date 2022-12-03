@@ -1,8 +1,14 @@
 import 'dart:convert';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
+import 'package:iconly/iconly.dart';
+import 'package:kikly/widgets/search_field.dart';
+import 'package:kikly/widgets/user_widget.dart';
 
+import 'extras/app_text_style.dart';
+import 'extras/colors.dart';
 import 'models/TestModel.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,34 +20,66 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Users> list = [];
+  String selectedLocation = 'Location';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: 230,
-        child: FutureBuilder(
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-          getUsersData();
-
-          if (list.isEmpty) {
-            return const Center(
-                child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
-            ));
-          }
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-          if (snapshot.hasData) {
-            var list = snapshot.data!;
-            return Container(
-
-            );
-          }
-          return const Text("Error while calling getData");
-        }),
+      body: Column(
+        children: [
+          getHeight(35),
+          SearchField(),
+          getHeight(10),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 35.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                locationDropDown(),
+                const Icon(
+                  IconlyLight.filter,
+                  color: Colors.black,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+              getUsersData();
+              if (list.isEmpty) {
+                return const Center(
+                    child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.pink),
+                ));
+              }
+              if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              if (list.isNotEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    itemCount: list.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      String check = (index % 2 == 0) ? "open" : "close";
+                      return UserWidget(list[index], check);
+                    },
+                  ),
+                );
+              }
+              return const Text("Error while calling getData");
+            }),
+          ),
+        ],
       ),
+    );
+  }
+
+  SizedBox getHeight(double h) {
+    return SizedBox(
+      height: h,
     );
   }
 
@@ -56,9 +94,7 @@ class _HomePageState extends State<HomePage> {
         var res = jsonDecode(response.body)["users"];
 
         list = List.generate(res.length, (index) => Users.fromJson(res[index]));
-        setState(() {
-
-        });
+        setState(() {});
       } else {
         print("response.statusCode");
         print(response.statusCode);
@@ -68,5 +104,56 @@ class _HomePageState extends State<HomePage> {
       print("STRING E");
       print(e);
     }
+  }
+
+  Container locationDropDown() {
+    return Container(
+      height: 45,
+      width: 230.w,
+      decoration: BoxDecoration(
+          color: CColors.textFieldFill,
+          borderRadius: BorderRadius.circular(20)),
+      child: DropdownButton<String>(
+        value: selectedLocation,
+        isExpanded: true,
+        icon: Padding(
+            padding: EdgeInsets.only(right: 10.w),
+            child: const Icon(
+              Icons.expand_more,
+            )),
+        elevation: 16,
+        style: AppTextStyle.molengo(
+          style: TextStyle(
+            fontSize: 16.w,
+            color: CColors.fieldText,
+          ),
+        ),
+        underline: const SizedBox(),
+        onChanged: (String? newValue) {
+          setState(() {
+            selectedLocation = newValue!;
+          });
+        },
+        items: <String>[
+          'Location',
+        ].map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Padding(
+              padding: EdgeInsets.only(left: 17.w),
+              child: Text(
+                value,
+                style: AppTextStyle.molengo(
+                  style: TextStyle(
+                    fontSize: 16.w,
+                    color: CColors.fieldText,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
+    );
   }
 }
