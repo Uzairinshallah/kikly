@@ -25,7 +25,7 @@ class _SearchFieldState extends State<SearchField> {
       padding:  EdgeInsets.symmetric(horizontal: widget.padding!.w),
       child: Container(
         decoration: BoxDecoration(
-          color: CColors.textFieldFill,
+          color: CColors.businessCardColor,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(

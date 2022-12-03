@@ -8,7 +8,7 @@ import '../models/TestModel.dart';
 class UserWidget extends StatelessWidget {
   UserWidget(this.model, this.check, {Key? key}) : super(key: key);
   Users model;
-  String check;
+  String? check;
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +76,20 @@ class UserWidget extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: const Padding(
-                                padding: EdgeInsets.all(2.0),
-                                child: Icon(
-                                  IconlyLight.scan,
-                                  color: Colors.white,
+                            InkWell(
+                              onTap: (){
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => QRViewPage()));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Padding(
+                                  padding: EdgeInsets.all(2.0),
+                                  child: Icon(
+                                    IconlyLight.scan,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
@@ -92,21 +97,35 @@ class UserWidget extends StatelessWidget {
                         ),
                         getHeight(10.h),
                         Row(
-                          children: const [
-                            Icon(
-                              IconlyLight.video,
-                              color: Colors.black12,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: const [
+                                Icon(
+                                  IconlyLight.video,
+                                  color: Colors.black12,
+                                ),
+                                Icon(
+                                  Icons.wifi,
+                                  color: Colors.black12,
+                                ),
+                                Icon(
+                                  Icons.currency_bitcoin,
+                                  color: Colors.black12,
+                                ),
+                              ],
                             ),
-                            Icon(
-                              Icons.wifi,
-                              color: Colors.black12,
+                            Text(
+                              check ?? '',
+                              style: AppTextStyle.inter(
+                                  style: TextStyle(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: (check == "Close") ? CColors.red : Colors.green),),
                             ),
-                            Icon(
-                              Icons.currency_bitcoin,
-                              color: Colors.black12,
-                            ),
+
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),

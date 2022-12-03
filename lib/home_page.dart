@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+import 'package:kikly/widgets/get_button.dart';
 import 'package:kikly/widgets/search_field.dart';
 import 'package:kikly/widgets/user_widget.dart';
 
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CColors.textFieldFill,
       body: Column(
         children: [
           getHeight(35),
@@ -59,13 +61,24 @@ class _HomePageState extends State<HomePage> {
               if (list.isNotEmpty) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: list.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      String check = (index % 2 == 0) ? "open" : "close";
-                      return UserWidget(list[index], check);
-                    },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: list.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            String check = (index % 2 == 0) ? "Open" : "Close";
+                            return UserWidget(list[index], check);
+                          },
+                        ),
+                      ),
+                      getHeight(5.h),
+                      GetButton(
+                        text: "VIEW MAP",
+                        onTap: () {},
+                      ),
+                    ],
                   ),
                 );
               }
@@ -111,7 +124,7 @@ class _HomePageState extends State<HomePage> {
       height: 45,
       width: 230.w,
       decoration: BoxDecoration(
-          color: CColors.textFieldFill,
+          color: CColors.businessCardColor,
           borderRadius: BorderRadius.circular(20)),
       child: DropdownButton<String>(
         value: selectedLocation,
@@ -156,4 +169,6 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+
 }
