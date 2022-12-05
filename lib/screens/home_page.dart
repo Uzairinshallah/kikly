@@ -8,9 +8,10 @@ import 'package:kikly/widgets/get_button.dart';
 import 'package:kikly/widgets/search_field.dart';
 import 'package:kikly/widgets/user_widget.dart';
 
-import 'extras/app_text_style.dart';
-import 'extras/colors.dart';
-import 'models/TestModel.dart';
+import '../extras/app_text_style.dart';
+import '../extras/colors.dart';
+import '../models/UserModel.dart';
+import 'map_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -76,7 +77,12 @@ class _HomePageState extends State<HomePage> {
                       getHeight(5.h),
                       GetButton(
                         text: "VIEW MAP",
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SelectLocation(model: list,)));
+                        },
                       ),
                     ],
                   ),
@@ -169,6 +175,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-
 }

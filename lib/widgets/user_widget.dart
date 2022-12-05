@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:iconly/iconly.dart';
 import '../extras/app_text_style.dart';
 import '../extras/colors.dart';
-import '../models/TestModel.dart';
+import '../models/UserModel.dart';
+import '../screens/scan_alert.dart';
 
 class UserWidget extends StatelessWidget {
   UserWidget(this.model, this.check, {Key? key}) : super(key: key);
@@ -77,8 +78,10 @@ class UserWidget extends StatelessWidget {
                               ],
                             ),
                             InkWell(
-                              onTap: (){
-                                // Navigator.push(context, MaterialPageRoute(builder: (context) => QRViewPage()));
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => ViewAlert());
                               },
                               child: Container(
                                 decoration: BoxDecoration(
@@ -118,12 +121,14 @@ class UserWidget extends StatelessWidget {
                             Text(
                               check ?? '',
                               style: AppTextStyle.inter(
-                                  style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: (check == "Close") ? CColors.red : Colors.green),),
+                                style: TextStyle(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: (check == "Close")
+                                        ? CColors.red
+                                        : Colors.green),
+                              ),
                             ),
-
                           ],
                         ),
                       ],

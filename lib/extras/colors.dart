@@ -33,11 +33,6 @@ class CColors{
   static Color pinkText = const Color(0xffF52A81);
   static Color orangeText = const Color(0xffFF7D27);
   static Color profileText = const Color(0xff333333);
-
-
-
-  // new
-
   static Color businessCardColor = Color(0xffF9F9F9);
 
 

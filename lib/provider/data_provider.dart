@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/TestModel.dart';
+import '../models/UserModel.dart';
 
 
 class DataProvider with ChangeNotifier {
